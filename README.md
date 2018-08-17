@@ -4,9 +4,29 @@ Automatic Distribution Sha Plugin
 This plugin makes discovering the [sha256-sum of a gradle distribution][sha256]
 automatic.
 
+Use
+---
+
+Apply to the root project:
 
     plugins {
         id "com.github.sghill.distribution-sha" version "0.1.0"
+    }
+
+Or to apply to every project you run, create an [init script][init]
+`~/.gradle/init.d/auto-sha.gradle`:
+
+    initscript {
+        repositories {
+            gradlePluginPortal()
+        }
+        dependencies {
+            classpath 'com.github.sghill.gradle:distribution-sha-plugin:0.1.0'
+        }
+    }
+
+    rootProject {
+        apply plugin: com.github.sghill.gradle.DistributionShaPlugin
     }
 
 
@@ -37,4 +57,5 @@ Understandably, this means that many projects with a checked-in wrapper aren't u
 feature.
 
 [sha256]: https://docs.gradle.org/current/userguide/gradle_wrapper.html
+[init]: https://docs.gradle.org/current/userguide/init_scripts.html
 
