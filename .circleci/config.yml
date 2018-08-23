@@ -13,7 +13,7 @@ jobs:
         - v1-dependencies-{{ checksum "build.gradle.kts" }}
         # fallback to using the latest cache if no exact match is found
         - v1-dependencies-
-    - run: gradle dependencies
+    - run: ./gradlew dependencies
     - save_cache:
         paths:
         - ~/.gradle
@@ -21,19 +21,19 @@ jobs:
     - run: ./gradlew check
   release:
     docker:
-      - image: circleci/openjdk:8-jdk
+    - image: circleci/openjdk:8-jdk
     steps:
-      - checkout
-      - run: ./gradlew final publishPlugins -Prelease.useLastTag=true
+    - checkout
+    - run: ./gradlew final publishPlugins -Prelease.useLastTag=true
 workflows:
   version: 2
   build:
     jobs:
-      - build
+    - build
   release:
     jobs:
-      - release
-          filters:
-            tags:
-              only: /^v\.\d+\.\d+\.\d+$/
+    - release
+      filters:
+        tags:
+          only: /^v\.\d+\.\d+\.\d+$/
 
