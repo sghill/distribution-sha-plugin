@@ -1,12 +1,13 @@
+defaults: &defaults
+  docker:
+  - image: circleci/openjdk:8-jdk
+  working_directory: ~/repo
+  environment:
+    TERM: dumb
+
 version: 2
 jobs:
-  build:
-    docker:
-    - image: circleci/openjdk:8-jdk
-    working_directory: ~/repo
-    environment:
-      TERM: dumb
-    steps:
+  cache_dependencies:
     - checkout
     - restore_cache:
         keys:
@@ -18,10 +19,13 @@ jobs:
         paths:
         - ~/.gradle
         key: v1-dependencies-{{ checksum "build.gradle.kts" }}
+  build:
+    <<: *defaults
+    steps:
+    - checkout
     - run: ./gradlew check
   release:
-    docker:
-    - image: circleci/openjdk:8-jdk
+    <<: *defaults
     steps:
     - checkout
     - run: ./gradlew final publishPlugins -Prelease.useLastTag=true
@@ -29,10 +33,16 @@ workflows:
   version: 2
   build:
     jobs:
-    - build
+    - cache_dependencies
+    - build:
+        requires:
+          - cache_dependencies
   release-from-tag:
     jobs:
+    - cache_dependencies
     - release:
+        requires:
+        - cache_dependencies
         filters:
           tags:
             only: /^v\.\d+\.\d+\.\d+$/
