@@ -7,7 +7,7 @@ import org.gradle.kotlin.dsl.apply
 open class DistributionShaInitPlugin : Plugin<Gradle> {
     override fun apply(target: Gradle) {
         target.rootProject({
-            apply(DistributionShaPlugin::class.java)
+            apply<DistributionShaPlugin>()
         })
     }
 }
