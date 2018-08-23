@@ -12,7 +12,7 @@ Use
 Apply to the root project:
 
     plugins {
-        id "com.github.sghill.distribution-sha" version "0.2.0"
+        id "com.github.sghill.distribution-sha" version "0.2.1"
     }
 
 Or to apply to every project you run, create an [init script][init]
@@ -23,7 +23,7 @@ Or to apply to every project you run, create an [init script][init]
             gradlePluginPortal()
         }
         dependencies {
-            classpath 'com.github.sghill.gradle:distribution-sha-plugin:0.2.0'
+            classpath 'com.github.sghill.gradle:distribution-sha-plugin:0.2.1'
         }
     }
     apply plugin: com.github.sghill.gradle.DistributionShaInitPlugin
