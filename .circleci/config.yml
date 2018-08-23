@@ -30,10 +30,10 @@ workflows:
   build:
     jobs:
     - build
-  release:
+  release-from-tag:
     jobs:
-    - release
-      filters:
-        tags:
-          only: /^v\.\d+\.\d+\.\d+$/
+    - release:
+        filters:
+          tags:
+            only: /^v\.\d+\.\d+\.\d+$/
 
