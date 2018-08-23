@@ -8,6 +8,8 @@ defaults: &defaults
 version: 2
 jobs:
   cache_dependencies:
+    <<: *defaults
+    steps:
     - checkout
     - restore_cache:
         keys:
@@ -28,7 +30,7 @@ jobs:
     <<: *defaults
     steps:
     - checkout
-    - run: ./gradlew final publishPlugins -Prelease.useLastTag=true
+    - run: ./gradlew final publishPlugins -Prelease.useLastTag=true -Pgradle.publish.key=$PUBLISH_KEY -Pgradle.publish.secret=$PUBLISH_SECRET
 workflows:
   version: 2
   build:
@@ -36,7 +38,7 @@ workflows:
     - cache_dependencies
     - build:
         requires:
-          - cache_dependencies
+        - cache_dependencies
   release-from-tag:
     jobs:
     - cache_dependencies
