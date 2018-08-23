@@ -8,7 +8,7 @@ import org.gradle.api.tasks.wrapper.Wrapper
 import org.gradle.kotlin.dsl.withType
 import java.util.concurrent.TimeUnit
 
-class DistributionShaPlugin : Plugin<Project> {
+open class DistributionShaPlugin : Plugin<Project> {
     private companion object {
         val client: OkHttpClient by lazy {
             OkHttpClient.Builder()
