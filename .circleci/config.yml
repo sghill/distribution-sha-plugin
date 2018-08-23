@@ -41,7 +41,12 @@ workflows:
         - cache_dependencies
   release-from-tag:
     jobs:
-    - cache_dependencies
+    - cache_dependencies:
+        filters:
+          tags:
+            only: /^v\.\d+\.\d+\.\d+$/
+          branches:
+            ignore: /.*/
     - release:
         requires:
         - cache_dependencies

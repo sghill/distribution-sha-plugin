@@ -1,6 +1,8 @@
 Automatic Distribution Sha Plugin
 =================================
 
+[![CircleCI](https://circleci.com/gh/sghill/distribution-sha-plugin.svg?style=svg)](https://circleci.com/gh/sghill/distribution-sha-plugin)
+
 This plugin makes discovering the [sha256-sum of a gradle distribution][sha256]
 automatic.
 
