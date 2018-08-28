@@ -6,6 +6,9 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.tasks.wrapper.Wrapper
 import org.gradle.kotlin.dsl.withType
+import org.gradle.util.GradleVersion
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import java.util.concurrent.TimeUnit
 
 open class DistributionShaPlugin : Plugin<Project> {
@@ -16,9 +19,15 @@ open class DistributionShaPlugin : Plugin<Project> {
                     .readTimeout(2, TimeUnit.SECONDS)
                     .build()
         }
+        val gradle45 = GradleVersion.version("4.5")
+        val logger: Logger = LoggerFactory.getLogger(DistributionShaPlugin::class.java)
     }
 
     override fun apply(target: Project) {
+        if (GradleVersion.version(target.gradle.gradleVersion) < gradle45) {
+            logger.warn("Distribution sha methods not available until Gradle 4.5 - skipping")
+            return
+        }
         val root = target.findRoot()
         root.tasks.withType(Wrapper::class, {
             doFirst({
