@@ -6,6 +6,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.2.2]
+
+_Released 2018-08-27_
+
+### Fixed
+- Plugin will now no-op on Gradle < 4.5. This is the first version with the
+  methods we need to set the distributionSha256Sum.
+
+### Changed
+- Built with Gradle 4.10
+
 ## [0.2.1]
 
 _Released 2018-08-23_
