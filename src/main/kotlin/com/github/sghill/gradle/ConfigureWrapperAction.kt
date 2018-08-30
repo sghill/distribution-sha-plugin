@@ -1,5 +1,7 @@
 package com.github.sghill.gradle
 
+import com.github.sghill.gradle.Logger.info
+import com.github.sghill.gradle.Logger.warn
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.gradle.api.Action
@@ -18,28 +20,29 @@ open class ConfigureWrapperAction : Action<Wrapper> {
     override fun execute(w: Wrapper) {
         w.doFirst({
             if (!w.distributionSha256Sum.isNullOrBlank()) {
-                logger.warn("Distribution sha256 is provided - not attempting to fetch")
+                warn("no-op: sha256 already provided")
                 return@doFirst
             }
             if (w.distributionUrl.isNullOrBlank()) {
-                logger.warn("No distribution url set - not attempting to fetch sha256")
+                warn("no-op: distributionUrl missing")
                 return@doFirst
             }
+            val sha256Url = "${w.distributionUrl}.sha256"
             val req = Request.Builder()
-                    .url("${w.distributionUrl}.sha256")
+                    .url(sha256Url)
                     .build()
             client.newCall(req).execute().use {
                 if (!it.isSuccessful) {
-                    logger.info("Fetching distribution sha256 resulted in ${it.code()} ${it.message()}")
+                    info("fetching sha256 resulted in ${it.code()} ${it.message()}")
                     return@doFirst
                 }
                 val sha = it.body()?.string()
                 if (sha?.length != 64) {
-                    logger.warn("Not using fetched distribution sha256 (was ${sha?.length ?: 0} characters; expected 64)")
+                    warn("no-op: fetched sha256 (was ${sha?.length ?: 0} characters; expected 64)")
                     return@doFirst
                 }
                 w.distributionSha256Sum = sha
-                logger.info("Distribution sha256 successfully fetched for ${w.distributionType}")
+                info("sha256 successfully fetched at ${sha256Url}")
             }
         })
     }

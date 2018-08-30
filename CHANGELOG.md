@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+- If running with Gradle > 4.8.1 the wrapper task will be configured only
+  when called
+
+### Changed
+- All logging now starts with the [dist-sha] marker
+
 ## [0.2.2]
 
 _Released 2018-08-27_
