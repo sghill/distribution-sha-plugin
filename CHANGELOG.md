@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.3.0]
+
+_Released 2018-08-30_
+
 ### Added
 - If running with Gradle > 4.8.1 the wrapper task will be configured only
   when called
