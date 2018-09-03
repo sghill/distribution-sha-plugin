@@ -18,7 +18,17 @@ repositories {
 }
 
 dependencies {
+    components.withModule("org.junit:junit-bom", JUnitBomStatusSelector::class.java)
     implementation("com.squareup.okhttp3:okhttp:latest.release")
+
+    testImplementation("io.github.glytching:junit-extensions:latest.release")
+    testImplementation("org.junit:junit-bom:latest.release")
+    testImplementation("org.junit.jupiter:junit-jupiter-api")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
+}
+
+tasks.withType(Test::class).configureEach {
+    useJUnitPlatform()
 }
 
 gradlePlugin {
@@ -47,6 +57,29 @@ publishing {
         maven {
             name = "dist"
             setUrl("$buildDir/repo")
+        }
+    }
+}
+
+open class JUnitBomStatusSelector : ComponentMetadataRule {
+    private companion object {
+        val SCHEME = listOf("unknown", "alpha", "milestone", "candidate", "release")
+        val RELEASE = "[\\d+\\.]{5}".toRegex()
+        val CANDIDATE = "\\S+-RC\\d+$".toRegex()
+        val MILESTONE = "\\S+-M\\d+$".toRegex()
+    }
+
+    override fun execute(t: ComponentMetadataContext) {
+        with(t.details) {
+            val v = id.version
+            status = when {
+                v.matches(RELEASE) -> "release"
+                v.matches(CANDIDATE) -> "candidate"
+                v.matches(MILESTONE) -> "milestone"
+                v.endsWith("-ALPHA") -> "alpha"
+                else -> "unknown"
+            }
+            statusScheme = SCHEME
         }
     }
 }
