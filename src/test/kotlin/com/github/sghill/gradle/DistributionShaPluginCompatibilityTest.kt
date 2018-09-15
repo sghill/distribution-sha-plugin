@@ -77,7 +77,7 @@ class DistributionShaPluginCompatibilityTest {
     }
 
     @Test
-    fun `should lazily add config showing only in debug on greater than or equal to Gradle 4_9 when wrapper called`(projectDir: TemporaryFolder) {
+    fun `should lazily add config showing only in debug on current gradle`(projectDir: TemporaryFolder) {
         // given
         projectDir.createFile("build.gradle").appendText("""
             plugins {
@@ -87,7 +87,6 @@ class DistributionShaPluginCompatibilityTest {
 
         // when
         val result = GradleRunner.create()
-                .withGradleVersion("4.9")
                 .withArguments("wrapper", "--gradle-version=4.9", "--debug")
                 .withProjectDir(projectDir.root)
                 .withPluginClasspath()
