@@ -25,12 +25,12 @@ jobs:
     <<: *defaults
     steps:
     - checkout
-    - run: ./gradlew check
+    - run: ./gradlew build sonarqube -Dsonar.login=$SONAR_KEY
   release:
     <<: *defaults
     steps:
     - checkout
-    - run: ./gradlew final publishPlugins -Prelease.useLastTag=true -Pgradle.publish.key=$PUBLISH_KEY -Pgradle.publish.secret=$PUBLISH_SECRET
+    - run: ./gradlew final publishPlugins sonarqube -Prelease.useLastTag=true -Pgradle.publish.key=$PUBLISH_KEY -Pgradle.publish.secret=$PUBLISH_SECRET -Dsonar.login=$SONAR_KEY
 workflows:
   version: 2
   build:

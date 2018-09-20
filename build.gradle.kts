@@ -5,6 +5,7 @@ plugins {
     id("com.gradle.plugin-publish") version "0.10.0"
     id("nebula.maven-resolved-dependencies") version "8.2.1"
     id("nebula.release") version "6.3.5"
+    id("org.sonarqube") version "2.6.2"
 }
 
 group = "com.github.sghill.gradle"
