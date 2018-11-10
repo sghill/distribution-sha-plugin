@@ -3,8 +3,3 @@
 # This file is expected to be part of source control.
 com.squareup.okhttp3:okhttp:3.11.0
 com.squareup.okio:okio:1.14.0
-org.jetbrains.kotlin:kotlin-reflect:1.3.0
-org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.0
-org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.3.0
-org.jetbrains.kotlin:kotlin-stdlib:1.3.0
-org.jetbrains:annotations:13.0
