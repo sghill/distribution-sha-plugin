@@ -10,26 +10,32 @@ plugins {
 
 group = "com.github.sghill.gradle"
 
-dependencyLocking {
-    lockAllConfigurations()
-}
-
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    components.withModule("org.junit:junit-bom", JUnitBomStatusSelector::class.java)
-    implementation("com.squareup.okhttp3:okhttp:latest.release")
+    implementation(enforcedPlatform("com.squareup.okhttp3:okhttp-bom:3.12.1"))
+    implementation("com.squareup.okhttp3:okhttp")
 
     testImplementation("io.github.glytching:junit-extensions:latest.release")
-    testImplementation("org.junit:junit-bom:latest.release")
+    testImplementation(enforcedPlatform("org.junit:junit-bom:5.4.0"))
     testImplementation("org.junit.jupiter:junit-jupiter-api")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
 }
 
-tasks.withType(Test::class).configureEach {
-    useJUnitPlatform()
+tasks.register("testForJava8", Test::class) {
+    tasks.named("check").get().dependsOn(this)
+    onlyIf { JavaVersion.current().isJava8 }
+    useJUnitPlatform {
+        includeTags("java8")
+    }
+}
+
+tasks.named("test", Test::class).configure {
+    useJUnitPlatform {
+        excludeTags("java8")
+    }
 }
 
 gradlePlugin {
@@ -58,29 +64,6 @@ publishing {
         maven {
             name = "dist"
             setUrl("$buildDir/repo")
-        }
-    }
-}
-
-open class JUnitBomStatusSelector : ComponentMetadataRule {
-    private companion object {
-        val SCHEME = listOf("unknown", "alpha", "milestone", "candidate", "release")
-        val RELEASE = "[\\d+\\.]{5}".toRegex()
-        val CANDIDATE = "\\S+-RC\\d+$".toRegex()
-        val MILESTONE = "\\S+-M\\d+$".toRegex()
-    }
-
-    override fun execute(t: ComponentMetadataContext) {
-        with(t.details) {
-            val v = id.version
-            status = when {
-                v.matches(RELEASE) -> "release"
-                v.matches(CANDIDATE) -> "candidate"
-                v.matches(MILESTONE) -> "milestone"
-                v.endsWith("-ALPHA") -> "alpha"
-                else -> "unknown"
-            }
-            statusScheme = SCHEME
         }
     }
 }

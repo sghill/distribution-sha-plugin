@@ -1,5 +1,0 @@
-# This is a Gradle generated file for dependency locking.
-# Manual edits can break the build and are not advised.
-# This file is expected to be part of source control.
-com.squareup.okhttp3:okhttp:3.11.0
-com.squareup.okio:okio:1.14.0

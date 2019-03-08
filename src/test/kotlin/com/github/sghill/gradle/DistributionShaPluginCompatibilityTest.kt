@@ -3,6 +3,7 @@ package com.github.sghill.gradle
 import io.github.glytching.junit.extension.folder.TemporaryFolder
 import io.github.glytching.junit.extension.folder.TemporaryFolderExtension
 import org.gradle.testkit.runner.GradleRunner
+import org.junit.jupiter.api.Tag
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 
@@ -14,6 +15,7 @@ class DistributionShaPluginCompatibilityTest {
      * had to be eagerly configured.
      */
     @Test
+    @Tag("java8")
     fun `should warn user of no-op on less than Gradle 4_5`(projectDir: TemporaryFolder) {
         // given
         projectDir.createFile("build.gradle").appendText("""
@@ -35,6 +37,7 @@ class DistributionShaPluginCompatibilityTest {
     }
 
     @Test
+    @Tag("java8")
     fun `should display eager config executed in debug for Gradle 4_5 up to Gradle 4_9`(projectDir: TemporaryFolder) {
         // given
         projectDir.createFile("build.gradle").appendText("""
@@ -56,6 +59,7 @@ class DistributionShaPluginCompatibilityTest {
     }
 
     @Test
+    @Tag("java8")
     fun `should lazily add config showing nothing in debug on greater than or equal to Gradle 4_9`(projectDir: TemporaryFolder) {
         // given
         projectDir.createFile("build.gradle").appendText("""
