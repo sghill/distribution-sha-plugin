@@ -6,6 +6,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.4.0]
+
+_Released 2019-04-21_
+
+### Added
+- Publishing Gradle Module Metadata
+
+### Changed
+- Depend on a strict range for okhttp of >= 3.0.0 and <= 4.0.0. We're not using
+  features introduced in a specific version, so other things on the buildscript
+  classpath should be free to declare what they need. So long as it fits within
+  our range, we're good to go.
+- Built with Gradle 5.4
+
 ## [0.3.0]
 
 _Released 2018-08-30_
