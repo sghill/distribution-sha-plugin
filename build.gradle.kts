@@ -3,7 +3,6 @@ plugins {
     `kotlin-dsl`
     `maven-publish`
     id("com.gradle.plugin-publish") version "0.10.0"
-    id("nebula.maven-resolved-dependencies") version "8.2.1"
     id("nebula.release") version "6.3.5"
     id("org.sonarqube") version "2.6.2"
 }
@@ -15,8 +14,11 @@ repositories {
 }
 
 dependencies {
-    implementation(enforcedPlatform("com.squareup.okhttp3:okhttp-bom:3.12.1"))
-    implementation("com.squareup.okhttp3:okhttp")
+    implementation("com.squareup.okhttp3:okhttp") {
+        version {
+            strictly("[3.0.0,4.0.0[")
+        }
+    }
 
     testImplementation("io.github.glytching:junit-extensions:latest.release")
     testImplementation(enforcedPlatform("org.junit:junit-bom:5.4.0"))
